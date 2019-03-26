@@ -1,0 +1,26 @@
+# Use minimal image as base to avoid overriding environment variables.
+language: minimal
+os: linux
+dist: xenial
+
+matrix:
+  include:
+  - name: "linux, gcc 8"
+    addons: &gcc8
+      apt: { sources: ['ubuntu-toolchain-r-test'], packages: ['gcc-8', 'g++-8', 'python3-setuptools', 'python3-pip'] }
+    env: CC=gcc-8 CXX=g++-8
+    install:
+      - ${CXX} --version
+
+  - name: "linux, gcc 7"
+    addons: &gcc7
+      apt: { sources: ['ubuntu-toolchain-r-test'], packages: ['gcc-7', 'g++-7', 'python3-setuptools', 'python3-pip'] }
+    env: CC=gcc-7 CXX=g++-7
+    install:
+      - ${CXX} --version
+
+script:
+  - ${CXX} --version
+
+notifications:
+  email: false
